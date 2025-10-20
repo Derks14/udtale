@@ -1,14 +1,4 @@
 services:
-  mongodb:
-    environment:
-      - MONGO_INITDB_DATABASE=udtale
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_USERNAME}
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_PASSWORD}
-    ports:
-      - '27017:27017'
-    profiles:
-      - prod
-
   spring-app:
     image: eclipse-temurin:17-jdk
     container_name: spring-app
@@ -18,10 +8,9 @@ services:
     command: java -jar udtale.jar
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@udtale.nrhidcx.mongodb.net/?retryWrites=true&w=majority&appName=udtale
     ports:
       - '8080:8080'
-    depends_on:
-      - mongodb
     profiles:
       - prod
 
