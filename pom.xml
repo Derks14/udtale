@@ -8,10 +8,10 @@
 		<version>3.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>pronounce</groupId>
-	<artifactId>pronounce</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>pronounce</name>
+	<groupId>udtale</groupId>
+	<artifactId>udtale</artifactId>
+	<version>0.0.1</version>
+	<name>udtale</name>
 	<description>pronunciation improvement model</description>
 	<url/>
 	<licenses>
