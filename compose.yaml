@@ -8,7 +8,7 @@ services:
     command: java -jar udtale.jar
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATA_MONGODB_URI=mongodb+srv://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@udtale.nrhidcx.mongodb.net/?retryWrites=true&w=majority&appName=udtale
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@udtale.nrhidcx.mongodb.net/udtale?retryWrites=true&w=majority&appName=udtale
     ports:
       - '8080:8080'
     profiles:
