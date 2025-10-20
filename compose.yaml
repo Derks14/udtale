@@ -2,8 +2,27 @@ services:
   mongodb:
     image: 'mongo:latest'
     environment:
-      - 'MONGO_INITDB_DATABASE=pronouce'
+      - 'MONGO_INITDB_DATABASE=udtale'
       - 'MONGO_INITDB_ROOT_PASSWORD=secret'
       - 'MONGO_INITDB_ROOT_USERNAME=root'
     ports:
-      - '27017'
+      - '27017:27017'
+    profiles:
+      - prod
+
+  spring-app:
+    image: eclipse-temurin:17-jdk
+    container_name: spring-app
+    working_dir: /app
+    volumes:
+      - ./target:/app
+    command: java -jar udtale.jar
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongodb
+    profiles:
+      - prod
+
