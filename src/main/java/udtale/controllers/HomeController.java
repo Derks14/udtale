@@ -13,8 +13,8 @@ public class HomeController {
     @GetMapping
     public ResponseEntity<String> home(HttpServletRequest request) {
         String sessionId = request.getSession().getId();
-        log.info("[{}] testing application 1, 2, 3 ....", sessionId);
+        log.info("[{}] testing application uptime 1, 2, 3 ....", sessionId);
 
-        return ResponseEntity.ok("Welcome to pronounce+");
+        return ResponseEntity.ok("Welcome to udtale ...");
     }
 }
