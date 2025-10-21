@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping
+    @GetMapping("/home")
     public ResponseEntity<String> home(HttpServletRequest request) {
         String sessionId = request.getSession().getId();
         log.info("[{}] testing application uptime 1, 2, 3 ....", sessionId);
