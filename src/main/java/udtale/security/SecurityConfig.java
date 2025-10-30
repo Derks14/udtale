@@ -36,7 +36,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/home","/auth/login", "/auth/register").permitAll()
+                        request.requestMatchers("/home","api/auth/login", "api/auth/register").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -48,7 +48,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return username -> learnerRepository.findUserByUsername(username)
                 .orElseThrow( () -> {
-                    log.error("User with name {} cannot be found ", username);
+                    log.error("User with username/email {} cannot be found ", username);
                     return new UsernameNotFoundException("Cannot find user");});
     }
 
