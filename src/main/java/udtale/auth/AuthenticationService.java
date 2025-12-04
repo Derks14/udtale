@@ -1,5 +1,6 @@
 package udtale.auth;
 
+import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import udtale.config.exceptions.EmailAlreadyExistsException;
 import udtale.models.Learner;
 import udtale.repositories.LearnerRepository;
 import udtale.security.JwtService;
@@ -63,8 +65,9 @@ public class AuthenticationService {
         try {
             log.info("[{}] creating new learner account ", sessionId);
             learnerRepository.save(learner);
-        } catch (Exception e) {
-            log.error("[{}] error creating learner account. Error: ", e.getMessage());
+        } catch (DuplicateKeyException e) {
+            log.warn("Attempt to create learner with duplicate email: {}", details.getEmail());
+            throw new EmailAlreadyExistsException("Email already registered: " + details.getEmail());
         }
 
         log.info("[{}] generating new JWT authentication token ", sessionId);
