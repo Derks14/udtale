@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import udtale.repositories.LearnerRepository;
@@ -24,11 +25,11 @@ import udtale.repositories.LearnerRepository;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final LearnerRepository learnerRepository;
+    private final UserDetailsService userDetailsService;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, LearnerRepository learnerRepository) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.learnerRepository = learnerRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -36,7 +37,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/home","api/auth/login", "api/auth/register").permitAll()
+                        request.requestMatchers("/home","/api/auth/login", "/api/auth/register").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -44,18 +45,20 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> learnerRepository.findUserByUsername(username)
-                .orElseThrow( () -> {
-                    log.error("User with username/email {} cannot be found ", username);
-                    return new UsernameNotFoundException("Cannot find user");});
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return username -> learnerRepository.findUserByUsername(username)
+//                .orElseThrow( () -> {
+//                    log.error("User with username/email {} cannot be found ", username);
+//                    return new UsernameNotFoundException("Cannot find user");});
+//    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService());
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(this.userDetailsService);
+//        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         provider.setPasswordEncoder(Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
+//        provider.setUserDetailsService(this.userDetailsService());
         return provider;
     }
 

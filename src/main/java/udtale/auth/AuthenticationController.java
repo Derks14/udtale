@@ -28,7 +28,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegistrationDetails details, HttpServletRequest request) {
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid udtale.auth.RegistrationDetails details, HttpServletRequest request) {
         String sessionId = request.getSession().getId();
         log.info("[{}] request to register new user", sessionId);
         AuthResponse response = authenticationService.register(details, sessionId);

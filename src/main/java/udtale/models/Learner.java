@@ -45,7 +45,7 @@ public class Learner extends BaseDocument implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override

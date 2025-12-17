@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,11 +40,19 @@ public class AuthenticationService {
             boolean isAuthenticated  = authenticationManager.authenticate(authentication).isAuthenticated();
 
             if (isAuthenticated) {
+//                update the authentication object again after user is successfully authenticated
+
+                Learner learner = learnerRepository.findUserByUsername(authCredentials.getUsername())
+                        .orElseThrow( () -> {
+                            log.error("User with username/email {} cannot be found ", authCredentials.getUsername());
+                            return new UsernameNotFoundException("Cannot find user");
+                        } );
+
                 log.info("[{}] user authentication successful. [user={}]", sessionId, authentication.getPrincipal());
 
-                String token = jwtService.generateJWTToken(authCredentials.getUsername());
+                String token = jwtService.generateJWTToken(learner.getUsername());
 
-                return AuthResponse.builder().accessToken(token).learner((Learner) authentication.getPrincipal()).build();
+                return AuthResponse.builder().accessToken(token).learner(learner).build();
             }
 
         } catch (AuthenticationException e) {
@@ -51,7 +61,7 @@ public class AuthenticationService {
         return null;
     }
 
-    public AuthResponse register(RegistrationDetails details, String sessionId) {
+    public AuthResponse register(udtale.auth.RegistrationDetails details, String sessionId) {
         log.info("[{}] encoding new learner password ", sessionId);
         String encodedPassword = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8().encode(details.getPassword());
 
