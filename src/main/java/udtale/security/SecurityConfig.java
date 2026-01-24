@@ -45,14 +45,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return username -> learnerRepository.findUserByUsername(username)
-//                .orElseThrow( () -> {
-//                    log.error("User with username/email {} cannot be found ", username);
-//                    return new UsernameNotFoundException("Cannot find user");});
-//    }
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(this.userDetailsService);

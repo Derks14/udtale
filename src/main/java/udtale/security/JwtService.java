@@ -19,21 +19,20 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private String SECRET_KEY = "4teen";
-
     public JwtService() {
 
         KeyGenerator key = null;
         try {
             key = KeyGenerator.getInstance("HmacSHA256");
             SecretKey sk = key.generateKey();
-            SECRET_KEY = Base64.getEncoder().encodeToString(sk.getEncoded());
+//            SECRET_KEY = Base64.getEncoder().encodeToString(sk.getEncoded());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
     public SecretKey generateSigningKey() {
+        String SECRET_KEY = "SatOXlv8kDNCbW04cW47asgROR4LILon1wEn89erWBg=";
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
 
         return Keys.hmacShaKeyFor(keyBytes);
@@ -45,7 +44,7 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
 
         Date currentDate = new Date(System.currentTimeMillis());
-        Date expirationDate = new Date(System.currentTimeMillis() + 60 * 60 * 30);
+        Date expirationDate = new Date(System.currentTimeMillis() + 30L * 60 * 60 * 1000);
 
         return Jwts.builder()
                 .claims()

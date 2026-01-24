@@ -11,13 +11,12 @@ import lombok.Value;
 public class AuthCredentials {
     @Getter
     @NotBlank
-    String email;
+    String username;
 
     @Pattern( regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message = "Password.( digit, lowercase, upper, nospace, symbol)")
     String password;
 
-
-    String getUsername() {
-        return this.email;
-    }
+//    String getUsername() {
+//        return this.email;
+//    }
 }

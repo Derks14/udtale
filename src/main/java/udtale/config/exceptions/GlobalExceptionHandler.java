@@ -74,6 +74,32 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
 
     }
+
+
+    @ExceptionHandler(TranscriptionException.class)
+    public ResponseEntity<ProblemDetail> handleAudioTranscriptionException(TranscriptionException exception, HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
+        String name = exception.getClass().getSimpleName();
+
+        ProblemDetail problemDetail = this.base(exception.getHttpStatus(), name, exception.getMessage());
+        problemDetail.setProperty("code", exception.getCode());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
+    }
+
+    @ExceptionHandler(AudioProcessingException.class)
+    public ResponseEntity<ProblemDetail> handleAudioTranscriptionException(AudioProcessingException exception, HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
+        String name = exception.getClass().getSimpleName();
+
+        ProblemDetail problemDetail = this.base(exception.getHttpStatus(), name, exception.getMessage());
+        problemDetail.setProperty("code", exception.getCode());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
+    }
+
+
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ProblemDetail> handleNotValid(MethodArgumentNotValidException exception, HttpServletRequest request) {
         String sessionId = request.getSession().getId();

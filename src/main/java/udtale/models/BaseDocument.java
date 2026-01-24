@@ -1,8 +1,6 @@
 package udtale.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.LocalDateTime;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public abstract class BaseDocument {
     @Id
     @Field(value = "_id", targetType = FieldType.OBJECT_ID )

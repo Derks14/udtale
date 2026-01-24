@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -24,6 +25,8 @@ public class Learner extends BaseDocument implements UserDetails {
     private String firstname;
     private String lastname;
     private String username;
+
+    private LocalDateTime lastActivityAt;
 
     @Pattern( regexp = "^(?:\\+?61|0)4(?:[ -]?[0-9]){8}$", message = "Phone number is invalid")
     private String phone;

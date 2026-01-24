@@ -19,6 +19,7 @@ import java.util.List;
 public class Profile extends BaseDocument {
 
     @DocumentReference
+    @Indexed( unique = true)
     private Learner learner;
 
     @Indexed( unique = true)
@@ -70,6 +71,41 @@ public class Profile extends BaseDocument {
     private List<String> practiceModes;
     private List<String> preferredTone;
 
-
+    @Override
+    public String toString() {
+        return "Learner Profile Data " +  + '\'' +
+                ", primaryGoal: '" + primaryGoal + '\'' +
+                ", motivationTrigger: '" + motivationTrigger + '\'' +
+                ", motivationType: '" + motivationType + '\'' +
+                ", proficiencyGoal:'" + proficiencyGoal + '\'' +
+                ", nativeLanguage:'" + nativeLanguage + '\'' +
+                ", nativeRhythm:'" + nativeRhythm + '\'' +
+                ", englishProficiency:'" + englishProficiency + '\'' +
+                ", pastEnglishLessons:'" + pastEnglishLessons + '\'' +
+                ", locationRegion:'" + locationRegion + '\'' +
+                ", dailyEnglishFrequency:'" + dailyEnglishFrequency + '\'' +
+                ", nativeSpeakerContactFreq:'" + nativeSpeakerContactFreq + '\'' +
+                ", primaryContext:" + primaryContext +
+                ", listeningDifficulty:'" + listeningDifficulty + '\'' +
+                ", contentSources:" + contentSources +
+                ", ambientAccent:'" + ambientAccent + '\'' +
+                ", bestUnderstoodAccent:'" + bestUnderstoodAccent + '\'' +
+                ", selfRatedPronunciation:'" + selfRatedPronunciation + '\'' +
+                ", challengingSounds:" + challengingSounds +
+                ", difficultyFocus:" + difficultyFocus +
+                ", speakingSpeed:'" + speakingSpeed + '\'' +
+                ", voiceRecordingComfort:'" + voiceRecordingComfort + '\'' +
+                ", confidenceLevel:'" + confidenceLevel + '\'' +
+                ", biggestChallenge:'" + biggestChallenge + '\'' +
+                ", feedbackStyle:'" + feedbackStyle + '\'' +
+                ", targetAccent:'" + targetAccent + '\'' +
+                ", accentGoal:'" + accentGoal + '\'' +
+                ", dailyPracticeGoal:'" + dailyPracticeGoal + '\'' +
+                ", weeklyAvailability:'" + weeklyAvailability + '\'' +
+                ", practiceTime:'" + practiceTime + '\'' +
+                ", practiceModes:" + practiceModes +
+                ", preferredTone:" + preferredTone +
+                '}';
+    }
 //    RC45911072754
 }
